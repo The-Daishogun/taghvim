@@ -4,7 +4,6 @@ import json
 import tqdm
 import time
 from pathlib import Path
-import asyncio
 import os
 import jdatetime
 from itertools import product
@@ -58,9 +57,12 @@ def get_data_for_month(year_jalali: int, month_jalali: int, client: httpx.Client
     }
 
     while True:
-        response = client.post(TIME_IR_URL, data=payload)
-        if response.status_code == httpx.codes.OK:
-            break
+        try:
+            response = client.post(TIME_IR_URL, data=payload)
+            if response.status_code == httpx.codes.OK:
+                break
+        except httpx.TimeoutException:
+            pass
         print("Error, Status:", response.status_code, "sleeping for 1 second...")
         time.sleep(1)
 
