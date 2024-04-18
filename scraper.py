@@ -63,7 +63,7 @@ def get_data_for_month(year_jalali: int, month_jalali: int, client: httpx.Client
                 break
         except httpx.TimeoutException:
             pass
-        print("Error, Status:", response.status_code, "sleeping for 1 second...")
+        print("Error, sleeping for 1 second...")
         time.sleep(1)
 
     soup = BeautifulSoup(response.text, "html.parser")
